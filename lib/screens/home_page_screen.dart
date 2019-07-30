@@ -27,13 +27,16 @@ class CounterLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counter = Provider.of<Counter>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text('You have pushed the button this many times:'),
-        Text('${counter.getCounter()}',
-            style: Theme.of(context).textTheme.display1)
+        Consumer<Counter>(
+          builder: (context, counter, child) {
+            return Text('${counter.getCounter()}',
+                style: Theme.of(context).textTheme.display1);
+          },
+        ),
       ],
     );
   }
@@ -45,11 +48,11 @@ class IncrementCounterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-        onPressed: () {
-          Provider.of<Counter>(context, listen: false).increment();
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      );
+      onPressed: () {
+        Provider.of<Counter>(context, listen: false).increment();
+      },
+      tooltip: 'Increment',
+      child: Icon(Icons.add),
+    );
   }
 }

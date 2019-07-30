@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:provider_example/main.dart';
+import 'package:provider_example/models/cart_model.dart';
+import 'package:provider_example/models/item.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -26,5 +28,14 @@ void main() {
     // Verify that our counter has incremented.
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
+  });
+
+  test('adding item increases total cost', () {
+    final cart = CartModel();
+    final startingPrice = cart.totalPrice;
+    cart.addListener(() {
+      expect(cart.totalPrice, greaterThan(startingPrice));
+    });
+    cart.add(Item('Dash'));
   });
 }
